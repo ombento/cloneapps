@@ -1,0 +1,99 @@
+/**
+ * Sample React Native Login
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import {
+  BackHandler,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Button
+} from 'react-native';
+import { connect } from 'react-redux';
+
+const instructions = Platform.select({
+  ios: 'Press Cmd+R to reload,\n' +
+    'Cmd+D or shake for dev menu',
+  android: 'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
+});
+
+// type Props = {};
+class Login extends Component {
+  constructor(props) {
+    super(props)
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+}
+
+componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+}
+
+// componentWillUnmount() {
+//     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+// }
+
+handleBackButtonClick() {
+    this.props.navigation.goBack(null);
+    return true;
+}
+
+
+  navigateToChats() {
+    this.props.dispatch({
+      type: 'Navigation/RESET',
+      index: 0,
+      key: null,
+      actions: [
+        {
+          type: 'Navigation/NAVIGATE',
+          routeName: 'Main'
+        },
+      ]
+    })
+  }
+
+  render() {
+   
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit Login.js
+        </Text>
+        <Text style={styles.instructions}>
+          {instructions}
+        </Text>
+        <Button onPress={()=>this.navigateToChats()} title="Login"/>
+      </View>
+    );
+  }
+}
+
+export default connect()(Login)
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
